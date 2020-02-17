@@ -16,8 +16,8 @@ async function validatePr() {
     const filenames = Array.prototype.concat(
       ...commits.map(commit => {
         return commit.files
-          .map(({filename, sha}) => {
-            return {filename, commitId: sha}
+          .map(({filename, id}) => {
+            return {filename, commitId: id}
           })
           .filter(({filename}) => filename.endsWith('json'))
       })
