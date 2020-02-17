@@ -5,7 +5,7 @@ try {
   // `who-to-greet` input defined in action metadata file
   const nameToGreet = core.getInput('who-to-greet');
   const token = core.getInput('token');
-  console.log('token:', token);
+  console.log('token:', typeof token);
   console.log(`Hello ${nameToGreet}!`);
   const time = (new Date()).toTimeString();
   core.setOutput("time", time);
