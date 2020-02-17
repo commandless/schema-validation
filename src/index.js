@@ -4,7 +4,7 @@ const github = require('@actions/github');
 try {
   // `who-to-greet` input defined in action metadata file
   const nameToGreet = core.getInput('who-to-greet');
-  const token = core.getInput('token');
+  const token = core.getInput('github-token');
   console.log('token:', typeof token, token.length);
   console.log(`Hello ${nameToGreet}!`);
   const time = (new Date()).toTimeString();
