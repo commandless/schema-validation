@@ -28,8 +28,11 @@ async function validatePr() {
     console.log(filenames)
     console.log("==========")
 
-    const fileContents = await Promise.all(filenames.map(({filename, commitId}) => {
-      return axios.get(`https://raw.githubusercontent.com/commandless/commandless/blob/${commitId}/${filename}`)
+    const fileContents = await Promise.all(filenames.map(async ({filename, commitId}) => {
+      const fileUrl = `https://raw.githubusercontent.com/commandless/commandless/blob/${commitId}/${filename}`
+      console.log(fileUrl)
+      const {data} = await axios.get(fileUrl)
+      return data
     }))
 
     for (const content of fileContents) {
