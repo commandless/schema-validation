@@ -16,10 +16,8 @@ async function validatePr() {
     const filenames = Array.prototype.concat(
       ...commits.map(commit => {
         return commit.files
-          .map(({filename, id}) => {
-            return {filename, commitId: id}
-          })
-          .filter(({filename}) => filename.endsWith('json'))
+          .map(({filename}) => filename)
+          .filter((filename) => filename.endsWith('json'))
       })
     )
 
@@ -27,7 +25,8 @@ async function validatePr() {
     console.log(filenames)
     console.log("==========")
 
-    const fileContents = await Promise.all(filenames.map(async ({filename, commitId}) => {
+    const fileContents = await Promise.all(filenames.map(async (filename) => {
+      const commitId = github.context.payload.after
       const fileUrl = `https://raw.githubusercontent.com/commandless/commandless/${commitId}/${filename}`
       console.log(fileUrl)
       try {
