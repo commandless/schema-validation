@@ -1,0 +1,52 @@
+{
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://example.com/root.json",
+    "type": "object",
+    "title": "The Root Schema",
+    "required": [
+        "resolution",
+        "keywords",
+        "inputs",
+        "recipes"
+    ],
+    "properties": {
+        "resolution": {
+            "$id": "#/properties/resolution",
+            "type": "object",
+            "title": "The Resolution Schema",
+            "required": [
+                "bin"
+            ]
+        },
+        "keywords": {
+            "$id": "#/properties/keywords",
+            "type": "array",
+            "title": "The Keywords Schema"
+        },
+        "inputs": {
+            "$id": "#/properties/inputs",
+            "type": "object",
+            "title": "The Inputs Schema",
+            "required": [
+                "args",
+                "flags"
+            ]
+        },
+        "recipes": {
+            "$id": "#/properties/recipes",
+            "type": "array",
+            "title": "The Recipes Schema",
+            "items": {
+                "$id": "#/properties/recipes/items",
+                "type": "object",
+                "title": "The Items Schema",
+                "required": [
+                    "description",
+                    "keywords",
+                    "inputs"
+                ]
+            }
+        }
+    }
+}
