@@ -16,15 +16,23 @@ async function validatePr() {
 
     const filenames = Array.prototype.concat(
       ...commits.map(commit => {
-        return commit.files.map(file => file.filename)
+        return commit.files
+          .map(file => file.filename)
+          .filter(filename => filename.endsWith('json'))
       })
     )
 
     console.log("==========")
     console.log(filenames)
     console.log("==========")
-    
-    // core.setOutput("time", time);
+
+    const fileContents = await Promise.all(filenames.map(filename => {
+      return axios.get(`https://raw.githubusercontent.com/commandless/commandless/master/${filename}`)
+    }))
+
+    for (const content of fileContents) {
+      validateFile(content)
+    }
   
     // Get the JSON webhook payload for the event that triggered the workflow
     const payload = JSON.stringify(github.context.payload, undefined, 2)
@@ -33,6 +41,11 @@ async function validatePr() {
   } catch (error) {
     core.setFailed(error.message);
   }
+}
+
+function validateFile(content) {
+  const jsonContent = JSON.parse(content)
+  console.log(Object.keys(jsonContent))
 }
 
 validatePr()
