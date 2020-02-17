@@ -17,8 +17,10 @@ async function validatePr() {
     const filenames = Array.prototype.concat(
       ...commits.map(commit => {
         return commit.files
-          .map(file => file.filename)
-          .filter(filename => filename.endsWith('json'))
+          .map(({filename, sha}) => {
+            return {filename, commitId: sha}
+          })
+          .filter(({filename}) => filename.endsWith('json'))
       })
     )
 
@@ -26,8 +28,8 @@ async function validatePr() {
     console.log(filenames)
     console.log("==========")
 
-    const fileContents = await Promise.all(filenames.map(filename => {
-      return axios.get(`https://raw.githubusercontent.com/commandless/commandless/master/${filename}`)
+    const fileContents = await Promise.all(filenames.map(({filename, commitId}) => {
+      return axios.get(`https://raw.githubusercontent.com/commandless/commandless/blob/${commitId}/${filename}`)
     }))
 
     for (const content of fileContents) {
