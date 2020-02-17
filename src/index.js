@@ -1,6 +1,8 @@
+const ajv = require('ajv');
 const axios = require('axios');
 const core = require('@actions/core');
 const github = require('@actions/github');
+const schema = require('./schema.json')
 
 async function validatePr() {
   try {
@@ -51,8 +53,10 @@ async function validatePr() {
 }
 
 function validateFile(content) {
-  // const jsonContent = JSON.parse(content)
-  console.log(Object.keys(content))
+  var valid = ajv.validate(schema, content)
+  if (!valid) {
+    throw new Error(ajv.errorsText())
+  }
 }
 
 validatePr()
