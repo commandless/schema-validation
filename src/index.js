@@ -1,8 +1,10 @@
-const ajv = require('ajv');
+const Ajv = require('ajv');
 const axios = require('axios');
 const core = require('@actions/core');
 const github = require('@actions/github');
 const schema = require('./schema.json')
+
+var ajv = new Ajv();
 
 async function validatePr() {
   try {
