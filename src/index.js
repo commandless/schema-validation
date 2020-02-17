@@ -30,7 +30,7 @@ async function validatePr() {
       const fileUrl = `https://raw.githubusercontent.com/commandless/commandless/${commitId}/${filename}`
       console.log(fileUrl)
       try {
-        const {data} = await axios.get(fileUrl, {responseEncoding: 'utf8'})
+        const {data} = await axios.get(fileUrl)
         return data
       } catch (err) {
         console.log(err)
@@ -51,9 +51,8 @@ async function validatePr() {
 }
 
 function validateFile(content) {
-  console.log(content.slice(0, 100))
-  const jsonContent = JSON.parse(content)
-  console.log(Object.keys(jsonContent))
+  // const jsonContent = JSON.parse(content)
+  console.log(Object.keys(content))
 }
 
 validatePr()
