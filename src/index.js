@@ -29,8 +29,13 @@ async function validatePr() {
 
     const fileContents = await Promise.all(filenames.map(async ({filename, commitId}) => {
       const fileUrl = `https://raw.githubusercontent.com/commandless/commandless/${commitId}/${filename}`
-      const {data} = await axios.get(fileUrl)
-      return data
+      console.log(fileUrl)
+      try {
+        const {data} = await axios.get(fileUrl)
+        return data
+      } catch (err) {
+        console.log(err)
+      }
     }))
 
     for (const content of fileContents) {
