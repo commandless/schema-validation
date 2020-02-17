@@ -14,8 +14,14 @@ async function validatePr() {
       return data
     }))
 
+    const filenames = Array.prototype.concat(
+      ...commits.map(commit => {
+        return commit.files.map(file => file.filename)
+      })
+    )
+
     console.log("==========")
-    console.log([...commits.map(commit => commit.files)])
+    console.log(filenames)
     console.log("==========")
     
     // core.setOutput("time", time);
