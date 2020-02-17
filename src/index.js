@@ -4,8 +4,7 @@ const github = require('@actions/github');
 
 async function validatePr() {
   try {
-    const token = core.getInput('github-token');
-    console.log('token:', typeof token, token.length);
+    // const token = core.getInput('github-token');
   
     const commitIds = github.context.payload.commits.map(commit => commit.id)
 
@@ -29,8 +28,7 @@ async function validatePr() {
     console.log("==========")
 
     const fileContents = await Promise.all(filenames.map(async ({filename, commitId}) => {
-      const fileUrl = `https://raw.githubusercontent.com/commandless/commandless/blob/${commitId}/${filename}`
-      console.log(fileUrl)
+      const fileUrl = `https://raw.githubusercontent.com/commandless/commandless/${commitId}/${filename}`
       const {data} = await axios.get(fileUrl)
       return data
     }))
