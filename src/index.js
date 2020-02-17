@@ -1,3 +1,4 @@
+const axios = require('axios');
 const core = require('@actions/core');
 const github = require('@actions/github');
 
@@ -6,14 +7,14 @@ async function validatePr() {
     const token = core.getInput('github-token');
     console.log('token:', typeof token, token.length);
   
-    const octokit = new github.GitHub(token);
-  
-    const x = await octokit.commits.get({
-      sha: github.context.payload.commits[0].id
-    })
+    const commitIds = github.context.payload.commits.map(commit => commit.id)
+
+    const commits = await Promise.all(commitIds.map(commitId => {
+      return axios.get(`https://api.github.com/repos/commandless/commandless/commits/${commitId}`)
+    }))
 
     console.log("==========")
-    console.log(x)
+    console.log(commits)
     console.log("==========")
     
     core.setOutput("time", time);
