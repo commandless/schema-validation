@@ -51,6 +51,7 @@ async function validatePr() {
 }
 
 function validateFile(content) {
+  console.log(content.slice(0, 100))
   const jsonContent = JSON.parse(content)
   console.log(Object.keys(jsonContent))
 }
