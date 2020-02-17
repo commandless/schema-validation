@@ -1,10 +1,6 @@
-const Ajv = require('ajv');
 const axios = require('axios');
 const core = require('@actions/core');
 const github = require('@actions/github');
-const schema = require('./schema.json')
-
-var ajv = new Ajv();
 
 async function validatePr() {
   try {
@@ -55,10 +51,23 @@ async function validatePr() {
 }
 
 function validateFile(content) {
-  var valid = ajv.validate(schema, content)
-  if (!valid) {
-    throw new Error(ajv.errorsText())
+  const defined = [
+    content.resolution,
+    content.keywords,
+    content.inputs,
+    content.recipes,
+  ]
+ 
+  const isValid = defined.every(obj => typeof obj !== "undefined") && typeof content.resolution.bin === "string"
+
+  if (!isValid) {
+    throw new Error('Invalid JSON file')
   }
+
 }
 
 validatePr()
+
+
+
+
